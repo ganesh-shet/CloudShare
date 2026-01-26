@@ -33,6 +33,7 @@ public class ProfileService {
 
         // Returns the Profile DTO back to User.
         return ProfileDTO.builder()
+                .id(profile.getId())
                 .clerkId(profile.getClerkId())
                 .email(profile.getEmail())
                 .firstName(profile.getFirstName())
