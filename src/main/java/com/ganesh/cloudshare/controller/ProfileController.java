@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 public class ProfileController {
 
     private final ProfileService profileService;
-    private final ProfileRepository profileRepository;
 
     @PostMapping("/registerProfile")
     public ResponseEntity<?> registerProfile(@RequestBody ProfileDTO profileDTO) {
