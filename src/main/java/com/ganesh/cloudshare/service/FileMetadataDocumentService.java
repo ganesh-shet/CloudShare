@@ -36,9 +36,11 @@ public class FileMetadataDocumentService {
             throw new RuntimeException("Not enough credits to upload files. Please upgrade your plan or purchase more credits.");
         }
 
+        // Create upload directory if not exists
         Path uploadPath = Paths.get("upload").toAbsolutePath().normalize();
         Files.createDirectories(uploadPath);
 
+        // Process each file
         for (MultipartFile file : files) {
             String fileName = UUID.randomUUID()+"."+ StringUtils.getFilename(file.getOriginalFilename());
             Path targetLocation = uploadPath.resolve(fileName);
@@ -56,6 +58,7 @@ public class FileMetadataDocumentService {
 
             //TODO: Consume one credit for each file upload
 
+            // Save metadata to database
             savedFiles.add(fileMetadataRepository.save(fileMetadata));
         }
 
@@ -64,6 +67,7 @@ public class FileMetadataDocumentService {
                 .collect(Collectors.toList());
     }
 
+    // Map FileMetadataDocument to FileMetadataDTO
     private FileMetadataDTO mapToDTO(FileMetadataDocument fileMetadataDocument) {
        return FileMetadataDTO.builder()
                 .id(fileMetadataDocument.getId())
