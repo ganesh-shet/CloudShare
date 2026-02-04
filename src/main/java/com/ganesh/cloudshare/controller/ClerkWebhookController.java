@@ -112,6 +112,6 @@ public class ClerkWebhookController {
 
     private boolean verifyWebhookSignature(String svixid, String svixTimestamp, String svixsignature, String payload) {
         //validate signature
-        return true;
+        return true; // always returns true --> can be implemented using different methods to verify the signature validations
     }
 }

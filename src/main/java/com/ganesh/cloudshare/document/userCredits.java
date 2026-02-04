@@ -22,5 +22,5 @@ public class userCredits {
 
     private String clerkId;
     private Integer credits;
-    private String plan; //Basic, Premiuim, Ultimate
+    private String plan; //Basic, Premium, Ultimate
 }
