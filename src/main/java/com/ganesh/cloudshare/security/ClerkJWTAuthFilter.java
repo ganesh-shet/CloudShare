@@ -39,7 +39,7 @@ public class ClerkJWTAuthFilter extends OncePerRequestFilter {
         String authorizationHeader = request.getHeader("Authorization");
         //if AuthHeader is missing
         if(authorizationHeader == null && !authorizationHeader.startsWith("Bearer ")) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized/AuthHeader Missing!!");
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Unauthorized/AuthHeader Missing!!");
             return;
         }
         //if AuthHeader is present
@@ -48,7 +48,7 @@ public class ClerkJWTAuthFilter extends OncePerRequestFilter {
             String[] chunks = token.split("\\.");
             //JWT will have 3 chunks -- Header[0]
             if(chunks.length < 3) {
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT token!");
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Invalid JWT token!");
                 return;
             }
 
@@ -59,7 +59,7 @@ public class ClerkJWTAuthFilter extends OncePerRequestFilter {
 
             //If key Id is not there in Header
             if(!headerNode.has("kid")) {
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token Header Missing kid!");
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Token Header Missing kid!");
                 return;
             }
             String kid = headerNode.get("kid").asText();
@@ -69,7 +69,7 @@ public class ClerkJWTAuthFilter extends OncePerRequestFilter {
             //verify token
             Claims claims = Jwts.parserBuilder()
                     .setSigningKey(publicKey)
-                    .setAllowedClockSkewSeconds(60)
+                    .setAllowedClockSkewSeconds(60) //default 10 seconds
                     .requireIssuer(clerkIssuer)
                     .build()
                     .parseClaimsJws(token)
@@ -81,7 +81,7 @@ public class ClerkJWTAuthFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
 
         }catch(Exception e){
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT token!: " + e.getMessage());
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Invalid JWT token!: " + e.getMessage());
             return;
         }
 
