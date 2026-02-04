@@ -3,9 +3,8 @@ package com.ganesh.cloudshare.service;
 import com.ganesh.cloudshare.DTO.ProfileDTO;
 import com.ganesh.cloudshare.document.ProfileDocument;
 import com.ganesh.cloudshare.repository.ProfileRepository;
-import com.mongodb.DuplicateKeyException;
-import com.mongodb.MongoWriteException;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -98,6 +97,14 @@ public class ProfileService {
             return true;
         }
         return false;
+    }
+
+    public ProfileDocument getCurrentProfile(){
+        if(SecurityContextHolder.getContext().getAuthentication() == null){
+            throw new UsernameNotFoundException("User not authenticated");
+        }
+        String clerkId = SecurityContextHolder.getContext().getAuthentication().getName();
+        return profileRepository.findByClerkId(clerkId);
     }
 
 }
