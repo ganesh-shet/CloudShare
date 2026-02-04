@@ -1,8 +1,6 @@
 package com.ganesh.cloudshare.controller;
 
 import com.ganesh.cloudshare.DTO.ProfileDTO;
-import com.ganesh.cloudshare.document.ProfileDocument;
-import com.ganesh.cloudshare.repository.ProfileRepository;
 import com.ganesh.cloudshare.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

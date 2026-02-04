@@ -35,7 +35,7 @@ public class ClerkWebhookController {
                 }
                 ObjectMapper mapper = new ObjectMapper();
                 JsonNode rootNode = mapper.readTree(payload);
-                String eventType = rootNode.path("type").asText();
+                String eventType = rootNode.path("type").asText(); //user_created/user_updated/user_deleted
 
                 switch (eventType){
                     case "user.created":
