@@ -25,7 +25,7 @@ public class ProfileController {
     public ResponseEntity<String> deleteProfile(@PathVariable String clerkId) {
         boolean deleted = profileService.deleteProfile(clerkId);
         if (deleted) {
-            return ResponseEntity.ok("Profile deleted successfully");
+            return ResponseEntity.ok("Profile deleted successfully for the clerkId: " + clerkId);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Profile not found with clerkId: " + clerkId);
