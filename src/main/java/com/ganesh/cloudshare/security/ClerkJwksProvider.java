@@ -2,10 +2,11 @@ package com.ganesh.cloudshare.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.math.BigInteger;
+import java.net.URL;
 import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.security.spec.RSAPublicKeySpec;
@@ -24,7 +25,7 @@ public class ClerkJwksProvider {
     private static final long CACHE_TTL = 60 * 60 * 1000; // 1hr
 
     public PublicKey getPublicKey(String kid) throws Exception {
-        if(keyCache.containsKey(kid)&&System.currentTimeMillis() - lastFetchTime < CACHE_TTL) {
+        if(keyCache.containsKey(kid) && System.currentTimeMillis() - lastFetchTime < CACHE_TTL) {
             return keyCache.get(kid); // if it is present in the CACHE, it will return the Keys wrt Key ID.
         }
         //if the keys are expired(more than 1hr) then refresh the key
@@ -33,7 +34,7 @@ public class ClerkJwksProvider {
     }
     private void refreshKeys() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        JsonNode jwks = mapper.readTree(jwksUrl); // Converts JSON to Java obj
+        JsonNode jwks = mapper.readTree(new URL(jwksUrl)); // Converts JSON to Java obj
 
         JsonNode keys = jwks.get("keys");
         for(JsonNode key : keys) {
