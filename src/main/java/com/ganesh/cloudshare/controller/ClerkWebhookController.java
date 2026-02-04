@@ -91,7 +91,7 @@ public class ClerkWebhookController {
         String clerkId = data.path("id").asText();
         String email = "";
         JsonNode emailAddresses = data.path("email_address");
-        if(emailAddresses.isArray() && emailAddresses.size() >0){
+        if(emailAddresses.isArray() && !emailAddresses.isEmpty()){
             email = emailAddresses.get(0).path("email_address").asText();
         }
         String firstName = data.path("first_name").asText("");

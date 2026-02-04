@@ -1,7 +1,6 @@
 package com.ganesh.cloudshare.repository;
 
 import com.ganesh.cloudshare.document.ProfileDocument;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
